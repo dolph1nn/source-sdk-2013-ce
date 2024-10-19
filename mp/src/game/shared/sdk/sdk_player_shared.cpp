@@ -158,3 +158,38 @@ void CSDKPlayer::FireBullet(
 		ApplyMultiDamage();
 #endif
 }
+
+bool CSDKPlayer::CanAttack(void)
+{
+#if defined ( SDK_USE_SPRINTING )
+#if !defined ( SDK_SHOOT_WHILE_SPRINTING )
+	if (IsSprinting())
+		return false;
+#endif // SDK_SHOOT_WHILE_SPRINTING
+#endif // SDK_USE_SPRINTING
+
+#if !defined ( SDK_SHOOT_ON_LADDERS )
+	if (GetMoveType() == MOVETYPE_LADDER)
+		return false;
+#endif //SDK_SHOOT_ON_LADDERS
+
+#if !defined ( SDK_SHOOT_WHILE_JUMPING )
+	if (m_Shared.IsJumping())
+		return false;
+#endif  //SDK_SHOOT_WHILE_JUMPING
+
+#if defined ( SDK_USE_PRONE )
+	//// cannot attack while prone moving.
+	//if (IsProne() && GetAbsVelocity().LengthSqr() > 1)
+	//{
+	//	return false;
+	//}
+
+	//if (m_Shared.IsGoingProne() || m_Shared.IsGettingUpFromProne())
+	//{
+	//	return false;
+	//}
+#endif // SDK_USE_PRONE
+
+	return true;
+}

@@ -12,13 +12,15 @@
 #include "predicted_viewmodel.h"
 #include "iservervehicle.h"
 #include "viewport_panel_names.h"
+#include "obstacle_pushaway.h"
 
 extern int gEvilImpulse101;
 
 ConVar sv_motd_unload_on_dismissal( "sv_motd_unload_on_dismissal", "0", 0, "If enabled, the MOTD contents will be unloaded when the player closes the MOTD." );
 
+#if !defined ( SDK_USE_PLAYERCLASSES ) && !defined (SDK_USE_TEAMS)
 #define SDK_PLAYER_MODEL "models/player/terror.mdl"
-
+#endif
 
 // -------------------------------------------------------------------------------- //
 // Player animation event. Sent to the client when a player fires, jumps, reloads, etc..
@@ -145,7 +147,7 @@ CSDKPlayer::CSDKPlayer()
 	UseClientSideAnimation();
 	m_angEyeAngles.Init();
 
-	SetViewOffset( SDK_PLAYER_VIEW_OFFSET );
+	//SetViewOffset( SDK_PLAYER_VIEW_OFFSET );
 
 	m_iThrowGrenadeCounter = 0;
 }
@@ -214,6 +216,14 @@ void CSDKPlayer::Precache()
 	PrecacheModel( SDK_PLAYER_MODEL );
 
 	BaseClass::Precache();
+}
+
+#define SDK_PUSHAWAY_THINK_CONTEXT	"SDKPushawayThink"
+void CSDKPlayer::SDKPushawayThink(void)
+{
+	// Push physics props out of our way.
+	PerformObstaclePushaway(this);
+	SetNextThink(gpGlobals->curtime + PUSHAWAY_THINK_INTERVAL, SDK_PUSHAWAY_THINK_CONTEXT);
 }
 
 void CSDKPlayer::Spawn()

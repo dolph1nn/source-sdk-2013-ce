@@ -38,6 +38,8 @@ public:
 
 // Called by shared code.
 public:
+
+	bool CanAttack(void);
 	
 	// ISDKPlayerAnimState overrides.
 	virtual CWeaponSDKBase* SDKAnim_GetActiveWeapon();

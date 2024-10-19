@@ -40,6 +40,8 @@ public:
 	virtual void FlashlightTurnOff( void );
 	virtual int FlashlightIsOn( void );
 
+	virtual bool CanAttack(void);
+
 	virtual void PreThink();
 	virtual void PostThink();
 	virtual void Spawn();
@@ -59,6 +61,8 @@ public:
 
 	// Tracks our ragdoll entity.
 	CNetworkHandle( CBaseEntity, m_hRagdoll );	// networked entity handle 
+
+	void SDKPushawayThink(void);
 
 // In shared code.
 public:
