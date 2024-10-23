@@ -74,6 +74,8 @@ IMPLEMENT_NETWORKCLASS_ALIASED( SDKGameRulesProxy, DT_SDKGameRulesProxy )
 
 #else
 
+	ConVar sk_plr_dmg_grenade("sk_plr_dmg_grenade", "0");
+
 	// --------------------------------------------------------------------------------------------------- //
 	// Voice helper
 	// --------------------------------------------------------------------------------------------------- //

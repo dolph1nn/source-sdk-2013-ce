@@ -1549,36 +1549,11 @@ int CJeepFourWheelServerVehicle::GetExitAnimToUse( Vector &vecEyeExitEndpoint, b
 {
 	bAllPointsBlocked = false;
 
-	if ( !m_bParsedAnimations )
+	if (!m_bParsedAnimations)
 	{
 		// Load the entry/exit animations from the vehicle
 		ParseEntryExitAnims();
 		m_bParsedAnimations = true;
 	}
-
-	CBaseAnimating *pAnimating = dynamic_cast<CBaseAnimating *>(m_pVehicle);
-	// If we don't have the gun anymore, we want to get out using the "gun-less" animation
-	if ( pAnimating )
-	{
-		// HACK: We know the tau-cannon removed exit anim uses the first upright anim's exit details
-		trace_t tr;
-		Vector vehicleExitOrigin;
-		QAngle vehicleExitAngles;
-
-		// Ensure the endpoint is clear by dropping a point down from above
-		pAnimating->GetAttachment( m_ExitAnimations[0].iAttachment, vehicleExitOrigin, vehicleExitAngles );
-		vehicleExitOrigin -= VEC_VIEW;
-		Vector vecMove = Vector(0,0,64);
-		Vector vecStart = vehicleExitOrigin + vecMove;
-		Vector vecEnd = vehicleExitOrigin - vecMove;
-  		UTIL_TraceHull( vecStart, vecEnd, VEC_HULL_MIN, VEC_HULL_MAX, MASK_SOLID, NULL, COLLISION_GROUP_NONE, &tr );
-
-		Assert( !tr.startsolid && tr.fraction < 1.0 );
-		m_vecCurrentExitEndPoint = vecStart + ((vecEnd - vecStart) * tr.fraction);
-		vecEyeExitEndpoint = m_vecCurrentExitEndPoint + VEC_VIEW;
-		m_iCurrentExitAnim = 0;
-		return pAnimating->LookupSequence( "exit_tauremoved" );
-	}
-
 	return BaseClass::GetExitAnimToUse( vecEyeExitEndpoint, bAllPointsBlocked );
 }
