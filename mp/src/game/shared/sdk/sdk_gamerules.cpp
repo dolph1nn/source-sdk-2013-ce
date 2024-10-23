@@ -81,7 +81,7 @@ IMPLEMENT_NETWORKCLASS_ALIASED( SDKGameRulesProxy, DT_SDKGameRulesProxy )
 	class CVoiceGameMgrHelper : public IVoiceGameMgrHelper
 	{
 	public:
-		virtual bool		CanPlayerHearPlayer( CBasePlayer *pListener, CBasePlayer *pTalker )
+		virtual bool		CanPlayerHearPlayer( CBasePlayer *pListener, CBasePlayer *pTalker, bool& bProximity)
 		{
 			// Dead players can only be heard by other dead team mates
 			if ( pTalker->IsAlive() == false )
