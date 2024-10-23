@@ -35,6 +35,9 @@ $Project "Client"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.h"
 
+		$File   "$SRCDIR\game\shared\playerclass_info_parse.cpp"
+		$File   "$SRCDIR\game\shared\playerclass_info_parse.h"
+
 		$Folder	"SDK2013CE DLL"
 		{
 			$File	"shaderapihack.h"
